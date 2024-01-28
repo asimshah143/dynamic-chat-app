@@ -19,4 +19,4 @@ const chatSchema = new mongoose.Schema({
     
 );
 
-module.exports = mongoose.Model('User', chatSchema)
+module.exports = mongoose.model('User', chatSchema)
