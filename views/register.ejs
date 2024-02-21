@@ -16,10 +16,10 @@
 </form>
     
 
-    <% if(typeof message !== 'undefind'){ %>
-        <p style="color: green"> 
-            hello this is message
-        </p>
+    <% 
+    const message = "signUp"
+    if(typeof message !== 'undefind'){ %>
+        <p style="color: green"> <%= message %> </p>
         <%  } %>
         
         

@@ -11,7 +11,7 @@ const registerLoad = async(req,res)=>{
     }catch(error){
         console.log(error.message);
     }
-}
+};
 
 const register = async(req,res)=>{
     try{
@@ -27,8 +27,63 @@ const register = async(req,res)=>{
         });
 
         await user.save();
-
+        
         res.render('register',{ message: 'your Registeration has been completed!' })
+
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+const loadLogin = async(req,res)=>{
+
+    try{
+        
+        res.render('login');
+    }catch(error){
+        console.log(error.message);
+    }
+}
+const login = async(req,res)=>{
+
+    try{
+        
+        const email = req.body.email;
+        const password = req.body.email;
+
+        const userData = await User.findOne({email:email});
+        if(userData){
+           const passwordMatch = bcrypt.compare(password, userData.password);
+           if(passwordMatch){
+                req.session.user =userData;
+                res.render('dashboard')
+           }else{
+               
+               res.render('login',{message:'Email and password is incorect'});
+           }
+        }else{
+            res.render('login',{message:'Email and password is incorect'});
+        }
+
+    }catch(error){
+        console.log(error.message);
+    }
+}
+const logout = async(req,res)=>{
+
+    try{
+        req.session.destroy();
+        res.redirect('/')
+        
+
+    }catch(error){
+        console.log(error.message);
+    }
+}
+const loadDashboard = async(req,res)=>{
+
+    try{
+        res.render('dashboard',{ user: "hello" })
 
     }catch(error){
         console.log(error.message);
@@ -36,5 +91,9 @@ const register = async(req,res)=>{
 }
 module.exports= {
     register,
-    registerLoad
+    registerLoad,
+    loadDashboard,
+    loadLogin,
+    login,
+    logout
 }
